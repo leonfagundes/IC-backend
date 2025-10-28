@@ -1,0 +1,8 @@
+venv/
+__pycache__/
+*.pyc
+checkpoints/
+logs/
+*.h5
+*.hdf5
+.DS_Store
