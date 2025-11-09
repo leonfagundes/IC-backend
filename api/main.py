@@ -9,8 +9,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 MODEL = None
 CLASS_NAMES = ["glioma", "meningioma", "notumor", "pituitary"]
-TARGET_SIZE = (128, 128)
-MODEL_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "model", "modelo_mobilenetv2_128x128_finetuned.keras")
+TARGET_SIZE = (224, 224)
+MODEL_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "model", "modelo_mobilenetv2_224x224_finetuned.keras")
 
 def load_model():
     global MODEL

@@ -1,0 +1,941 @@
+================================================================================
+RELATÓRIO COMPLETO DE TREINAMENTO - REDE NEURAL PARA CLASSIFICAÇÃO DE TUMORES
+================================================================================
+
+Data e Hora: 06/11/2025 22:43:43
+
+================================================================================
+1. ARQUITETURA DO MODELO
+================================================================================
+
+Modelo Base: MobileNetV2 (pré-treinado com ImageNet)
+Dimensões de Entrada: 224x224x3 (RGB)
+Número de Classes: 4
+Classes: glioma, meningioma, notumor, pituitary
+
+Camadas Adicionais:
+  - GlobalAveragePooling2D
+  - Dense(256, activation='relu')
+  - Dense(4, activation='softmax') - Camada de saída
+
+Total de Parâmetros: 2,586,948
+Parâmetros Treináveis: 2,190,404
+Parâmetros Não-Treináveis: 396,544
+
+Detalhamento das Camadas:
+--------------------------------------------------------------------------------
+Camada 0: input_layer
+  Tipo: InputLayer
+  Treinável: False
+
+Camada 1: Conv1
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 864
+
+Camada 2: bn_Conv1
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 128
+
+Camada 3: Conv1_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 4: expanded_conv_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: False
+  Parâmetros: 288
+
+Camada 5: expanded_conv_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 128
+
+Camada 6: expanded_conv_depthwise_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 7: expanded_conv_project
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 512
+
+Camada 8: expanded_conv_project_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 64
+
+Camada 9: block_1_expand
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 1,536
+
+Camada 10: block_1_expand_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 384
+
+Camada 11: block_1_expand_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 12: block_1_pad
+  Tipo: ZeroPadding2D
+  Treinável: False
+
+Camada 13: block_1_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: False
+  Parâmetros: 864
+
+Camada 14: block_1_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 384
+
+Camada 15: block_1_depthwise_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 16: block_1_project
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 2,304
+
+Camada 17: block_1_project_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 96
+
+Camada 18: block_2_expand
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 3,456
+
+Camada 19: block_2_expand_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 576
+
+Camada 20: block_2_expand_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 21: block_2_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: False
+  Parâmetros: 1,296
+
+Camada 22: block_2_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 576
+
+Camada 23: block_2_depthwise_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 24: block_2_project
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 3,456
+
+Camada 25: block_2_project_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 96
+
+Camada 26: block_2_add
+  Tipo: Add
+  Treinável: False
+
+Camada 27: block_3_expand
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 3,456
+
+Camada 28: block_3_expand_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 576
+
+Camada 29: block_3_expand_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 30: block_3_pad
+  Tipo: ZeroPadding2D
+  Treinável: False
+
+Camada 31: block_3_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: False
+  Parâmetros: 1,296
+
+Camada 32: block_3_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 576
+
+Camada 33: block_3_depthwise_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 34: block_3_project
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 4,608
+
+Camada 35: block_3_project_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 128
+
+Camada 36: block_4_expand
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 6,144
+
+Camada 37: block_4_expand_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 768
+
+Camada 38: block_4_expand_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 39: block_4_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: False
+  Parâmetros: 1,728
+
+Camada 40: block_4_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 768
+
+Camada 41: block_4_depthwise_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 42: block_4_project
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 6,144
+
+Camada 43: block_4_project_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 128
+
+Camada 44: block_4_add
+  Tipo: Add
+  Treinável: False
+
+Camada 45: block_5_expand
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 6,144
+
+Camada 46: block_5_expand_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 768
+
+Camada 47: block_5_expand_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 48: block_5_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: False
+  Parâmetros: 1,728
+
+Camada 49: block_5_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 768
+
+Camada 50: block_5_depthwise_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 51: block_5_project
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 6,144
+
+Camada 52: block_5_project_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 128
+
+Camada 53: block_5_add
+  Tipo: Add
+  Treinável: False
+
+Camada 54: block_6_expand
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 6,144
+
+Camada 55: block_6_expand_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 768
+
+Camada 56: block_6_expand_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 57: block_6_pad
+  Tipo: ZeroPadding2D
+  Treinável: False
+
+Camada 58: block_6_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: False
+  Parâmetros: 1,728
+
+Camada 59: block_6_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 768
+
+Camada 60: block_6_depthwise_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 61: block_6_project
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 12,288
+
+Camada 62: block_6_project_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 256
+
+Camada 63: block_7_expand
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 24,576
+
+Camada 64: block_7_expand_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 1,536
+
+Camada 65: block_7_expand_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 66: block_7_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: False
+  Parâmetros: 3,456
+
+Camada 67: block_7_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 1,536
+
+Camada 68: block_7_depthwise_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 69: block_7_project
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 24,576
+
+Camada 70: block_7_project_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 256
+
+Camada 71: block_7_add
+  Tipo: Add
+  Treinável: False
+
+Camada 72: block_8_expand
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 24,576
+
+Camada 73: block_8_expand_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 1,536
+
+Camada 74: block_8_expand_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 75: block_8_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: False
+  Parâmetros: 3,456
+
+Camada 76: block_8_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 1,536
+
+Camada 77: block_8_depthwise_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 78: block_8_project
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 24,576
+
+Camada 79: block_8_project_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 256
+
+Camada 80: block_8_add
+  Tipo: Add
+  Treinável: False
+
+Camada 81: block_9_expand
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 24,576
+
+Camada 82: block_9_expand_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 1,536
+
+Camada 83: block_9_expand_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 84: block_9_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: False
+  Parâmetros: 3,456
+
+Camada 85: block_9_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 1,536
+
+Camada 86: block_9_depthwise_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 87: block_9_project
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 24,576
+
+Camada 88: block_9_project_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 256
+
+Camada 89: block_9_add
+  Tipo: Add
+  Treinável: False
+
+Camada 90: block_10_expand
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 24,576
+
+Camada 91: block_10_expand_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 1,536
+
+Camada 92: block_10_expand_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 93: block_10_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: False
+  Parâmetros: 3,456
+
+Camada 94: block_10_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 1,536
+
+Camada 95: block_10_depthwise_relu
+  Tipo: ReLU
+  Treinável: False
+
+Camada 96: block_10_project
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 36,864
+
+Camada 97: block_10_project_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 384
+
+Camada 98: block_11_expand
+  Tipo: Conv2D
+  Treinável: False
+  Parâmetros: 55,296
+
+Camada 99: block_11_expand_BN
+  Tipo: BatchNormalization
+  Treinável: False
+  Parâmetros: 2,304
+
+Camada 100: block_11_expand_relu
+  Tipo: ReLU
+  Treinável: True
+
+Camada 101: block_11_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: True
+  Parâmetros: 5,184
+
+Camada 102: block_11_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 2,304
+
+Camada 103: block_11_depthwise_relu
+  Tipo: ReLU
+  Treinável: True
+
+Camada 104: block_11_project
+  Tipo: Conv2D
+  Treinável: True
+  Parâmetros: 55,296
+
+Camada 105: block_11_project_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 384
+
+Camada 106: block_11_add
+  Tipo: Add
+  Treinável: True
+
+Camada 107: block_12_expand
+  Tipo: Conv2D
+  Treinável: True
+  Parâmetros: 55,296
+
+Camada 108: block_12_expand_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 2,304
+
+Camada 109: block_12_expand_relu
+  Tipo: ReLU
+  Treinável: True
+
+Camada 110: block_12_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: True
+  Parâmetros: 5,184
+
+Camada 111: block_12_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 2,304
+
+Camada 112: block_12_depthwise_relu
+  Tipo: ReLU
+  Treinável: True
+
+Camada 113: block_12_project
+  Tipo: Conv2D
+  Treinável: True
+  Parâmetros: 55,296
+
+Camada 114: block_12_project_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 384
+
+Camada 115: block_12_add
+  Tipo: Add
+  Treinável: True
+
+Camada 116: block_13_expand
+  Tipo: Conv2D
+  Treinável: True
+  Parâmetros: 55,296
+
+Camada 117: block_13_expand_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 2,304
+
+Camada 118: block_13_expand_relu
+  Tipo: ReLU
+  Treinável: True
+
+Camada 119: block_13_pad
+  Tipo: ZeroPadding2D
+  Treinável: True
+
+Camada 120: block_13_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: True
+  Parâmetros: 5,184
+
+Camada 121: block_13_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 2,304
+
+Camada 122: block_13_depthwise_relu
+  Tipo: ReLU
+  Treinável: True
+
+Camada 123: block_13_project
+  Tipo: Conv2D
+  Treinável: True
+  Parâmetros: 92,160
+
+Camada 124: block_13_project_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 640
+
+Camada 125: block_14_expand
+  Tipo: Conv2D
+  Treinável: True
+  Parâmetros: 153,600
+
+Camada 126: block_14_expand_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 3,840
+
+Camada 127: block_14_expand_relu
+  Tipo: ReLU
+  Treinável: True
+
+Camada 128: block_14_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: True
+  Parâmetros: 8,640
+
+Camada 129: block_14_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 3,840
+
+Camada 130: block_14_depthwise_relu
+  Tipo: ReLU
+  Treinável: True
+
+Camada 131: block_14_project
+  Tipo: Conv2D
+  Treinável: True
+  Parâmetros: 153,600
+
+Camada 132: block_14_project_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 640
+
+Camada 133: block_14_add
+  Tipo: Add
+  Treinável: True
+
+Camada 134: block_15_expand
+  Tipo: Conv2D
+  Treinável: True
+  Parâmetros: 153,600
+
+Camada 135: block_15_expand_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 3,840
+
+Camada 136: block_15_expand_relu
+  Tipo: ReLU
+  Treinável: True
+
+Camada 137: block_15_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: True
+  Parâmetros: 8,640
+
+Camada 138: block_15_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 3,840
+
+Camada 139: block_15_depthwise_relu
+  Tipo: ReLU
+  Treinável: True
+
+Camada 140: block_15_project
+  Tipo: Conv2D
+  Treinável: True
+  Parâmetros: 153,600
+
+Camada 141: block_15_project_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 640
+
+Camada 142: block_15_add
+  Tipo: Add
+  Treinável: True
+
+Camada 143: block_16_expand
+  Tipo: Conv2D
+  Treinável: True
+  Parâmetros: 153,600
+
+Camada 144: block_16_expand_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 3,840
+
+Camada 145: block_16_expand_relu
+  Tipo: ReLU
+  Treinável: True
+
+Camada 146: block_16_depthwise
+  Tipo: DepthwiseConv2D
+  Treinável: True
+  Parâmetros: 8,640
+
+Camada 147: block_16_depthwise_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 3,840
+
+Camada 148: block_16_depthwise_relu
+  Tipo: ReLU
+  Treinável: True
+
+Camada 149: block_16_project
+  Tipo: Conv2D
+  Treinável: True
+  Parâmetros: 307,200
+
+Camada 150: block_16_project_BN
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 1,280
+
+Camada 151: Conv_1
+  Tipo: Conv2D
+  Treinável: True
+  Parâmetros: 409,600
+
+Camada 152: Conv_1_bn
+  Tipo: BatchNormalization
+  Treinável: True
+  Parâmetros: 5,120
+
+Camada 153: out_relu
+  Tipo: ReLU
+  Treinável: True
+
+Camada 154: global_average_pooling2d
+  Tipo: GlobalAveragePooling2D
+  Treinável: True
+
+Camada 155: dense
+  Tipo: Dense
+  Treinável: True
+  Parâmetros: 327,936
+
+Camada 156: dense_1
+  Tipo: Dense
+  Treinável: True
+  Parâmetros: 1,028
+
+
+================================================================================
+2. CONFIGURAÇÃO DE TREINAMENTO
+================================================================================
+
+Fase 1 - Treinamento Inicial (Base Model congelada):
+  - Épocas: 30
+  - Learning Rate: 5e-4
+  - Otimizador: Adam
+  - Batch Size: 8
+  - Early Stopping: patience=10, monitor='val_loss'
+  - ReduceLROnPlateau: factor=0.5, patience=3
+
+Fase 2 - Fine-tuning (Primeiras 100 camadas congeladas):
+  - Épocas: 20
+  - Learning Rate: 1e-5
+  - Otimizador: Adam
+  - Camadas treináveis a partir da camada 100
+
+Data Augmentation:
+  - Rescale: 1./255
+  - Validation Split: 20%
+  - Shuffle: True (training)
+
+Informações do Dataset:
+  - Total de amostras de treino: 5619
+  - Total de amostras de validação: 1404
+  - Distribuição por classe (validação):
+    * glioma: 324 amostras (23.08%)
+    * meningioma: 329 amostras (23.43%)
+    * notumor: 400 amostras (28.49%)
+    * pituitary: 351 amostras (25.00%)
+
+================================================================================
+3. MÉTRICAS DE DESEMPENHO (CONJUNTO DE VALIDAÇÃO)
+================================================================================
+
+Métricas Globais:
+  - Acurácia: 0.9259 (92.59%)
+  - Perda (Loss): 0.3563
+  - Precisão Macro: 0.9316
+  - Recall Macro: 0.9224
+  - F1-Score Macro: 0.9238
+  - Precisão Weighted: 0.9336
+  - Recall Weighted: 0.9259
+  - F1-Score Weighted: 0.9268
+
+Métricas por Classe:
+--------------------------------------------------------------------------------
+
+Classe: glioma
+  - Amostras: 324
+  - Precisão: 0.9786
+  - Recall (Sensibilidade): 0.8457
+  - F1-Score: 0.9073
+  - AUC-ROC: 0.9898
+
+Classe: meningioma
+  - Amostras: 329
+  - Precisão: 0.8036
+  - Recall (Sensibilidade): 0.9453
+  - F1-Score: 0.8687
+  - AUC-ROC: 0.9797
+
+Classe: notumor
+  - Amostras: 400
+  - Precisão: 0.9566
+  - Recall (Sensibilidade): 0.9925
+  - F1-Score: 0.9742
+  - AUC-ROC: 0.9992
+
+Classe: pituitary
+  - Amostras: 351
+  - Precisão: 0.9876
+  - Recall (Sensibilidade): 0.9060
+  - F1-Score: 0.9450
+  - AUC-ROC: 0.9970
+
+================================================================================
+4. RELATÓRIO DE CLASSIFICAÇÃO DETALHADO
+================================================================================
+
+              precision    recall  f1-score   support
+
+      glioma     0.9786    0.8457    0.9073       324
+  meningioma     0.8036    0.9453    0.8687       329
+     notumor     0.9566    0.9925    0.9742       400
+   pituitary     0.9876    0.9060    0.9450       351
+
+    accuracy                         0.9259      1404
+   macro avg     0.9316    0.9224    0.9238      1404
+weighted avg     0.9336    0.9259    0.9268      1404
+
+
+================================================================================
+5. MATRIZ DE CONFUSÃO
+================================================================================
+
+Legenda: Linhas = Classes Verdadeiras, Colunas = Classes Preditas
+
+               glioma   meningioma      notumor    pituitary 
+      glioma          274           50            0            0 
+  meningioma            1          311           13            4 
+     notumor            0            3          397            0 
+   pituitary            5           23            5          318 
+
+================================================================================
+6. ANÁLISE DA MATRIZ DE CONFUSÃO
+================================================================================
+
+
+Classe: glioma
+  - Predições corretas: 274/324 (84.57%)
+  - Predições incorretas: 50/324 (15.43%)
+  - Confusões principais:
+    * Confundido com meningioma: 50 vezes (15.43%)
+
+Classe: meningioma
+  - Predições corretas: 311/329 (94.53%)
+  - Predições incorretas: 18/329 (5.47%)
+  - Confusões principais:
+    * Confundido com glioma: 1 vezes (0.30%)
+    * Confundido com notumor: 13 vezes (3.95%)
+    * Confundido com pituitary: 4 vezes (1.22%)
+
+Classe: notumor
+  - Predições corretas: 397/400 (99.25%)
+  - Predições incorretas: 3/400 (0.75%)
+  - Confusões principais:
+    * Confundido com meningioma: 3 vezes (0.75%)
+
+Classe: pituitary
+  - Predições corretas: 318/351 (90.60%)
+  - Predições incorretas: 33/351 (9.40%)
+  - Confusões principais:
+    * Confundido com glioma: 5 vezes (1.42%)
+    * Confundido com meningioma: 23 vezes (6.55%)
+    * Confundido com notumor: 5 vezes (1.42%)
+
+================================================================================
+7. HISTÓRICO DE TREINAMENTO
+================================================================================
+
+Fase 1 - Treinamento Inicial:
+  - Épocas executadas: 21
+  - Acurácia inicial (treino): 0.8653
+  - Acurácia final (treino): 1.0000
+  - Acurácia inicial (validação): 0.8654
+  - Acurácia final (validação): 0.9615
+  - Loss inicial (treino): 0.3710
+  - Loss final (treino): 0.0006
+  - Loss inicial (validação): 0.3645
+  - Loss final (validação): 0.1579
+  - Melhor acurácia (validação): 0.9651 (época 17)
+  - Menor loss (validação): 0.1232 (época 11)
+
+Fase 2 - Fine-tuning:
+  - Épocas executadas: 10
+  - Acurácia inicial (treino): 0.7845
+  - Acurácia final (treino): 0.9722
+  - Acurácia inicial (validação): 0.9259
+  - Acurácia final (validação): 0.9516
+  - Loss inicial (treino): 1.2132
+  - Loss final (treino): 0.0795
+  - Loss inicial (validação): 0.3563
+  - Loss final (validação): 0.1569
+  - Melhor acurácia (validação): 0.9544 (época 8)
+  - Menor loss (validação): 0.1569 (época 10)
+
+================================================================================
+8. INFORMAÇÕES ADICIONAIS
+================================================================================
+
+Modelo salvo em: ./model/modelo_mobilenetv2_224x224_finetuned.keras
+Framework: TensorFlow/Keras
+Função de Perda: Categorical Crossentropy
+Métrica de Avaliação: Accuracy
+
+================================================================================
+FIM DO RELATÓRIO
+================================================================================
