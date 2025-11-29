@@ -17,24 +17,16 @@ def load_model():
     MODEL = tf.keras.models.load_model(MODEL_PATH)
 
 def is_grayscale_image(image: Image.Image) -> bool:
-    """
-    Verifica se a imagem é em escala de cinza.
-    Retorna True se todos os pixels têm R=G=B (tons de cinza).
-    """
-    # Converte para RGB se necessário
+    
     if image.mode != 'RGB':
         image = image.convert('RGB')
     
-    # Converte para array numpy
     img_array = np.array(image)
-    
-    # Verifica se R=G=B para todos os pixels
-    # Em uma imagem grayscale verdadeira, os canais R, G e B são idênticos
+
     r_channel = img_array[:, :, 0]
     g_channel = img_array[:, :, 1]
     b_channel = img_array[:, :, 2]
     
-    # Verifica se todos os pixels têm R=G=B
     is_gray = np.all(r_channel == g_channel) and np.all(g_channel == b_channel)
     
     return is_gray
@@ -56,7 +48,8 @@ app = FastAPI(lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_methods=["POST"],
+    allow_methods=["*"],
+    allow_credentials=True,
     allow_headers=["*"],
 )
 
