@@ -47,7 +47,11 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://72.61.33.18:4001",
+        "https://ic-frontend-six.vercel.app",
+        "*"
+    ],
     allow_methods=["*"],
     allow_credentials=True,
     allow_headers=["*"],
