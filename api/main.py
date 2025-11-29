@@ -50,7 +50,8 @@ app.add_middleware(
     allow_origins=[
         "http://72.61.33.18:4001",
         "https://ic-frontend-six.vercel.app",
-        "*"
+        "http://localhost:3000",
+        "http://localhost:5173",
     ],
     allow_methods=["*"],
     allow_credentials=True,

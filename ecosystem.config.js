@@ -2,7 +2,7 @@ module.exports = {
   apps: [{
     name: 'detectIA-api',
     script: 'uvicorn',
-    args: 'api.main:app --host 0.0.0.0 --port 8000',
+    args: 'api.main:app --host 0.0.0.0 --port 8002',
     interpreter: 'python3',
     instances: 1,
     autorestart: true,
